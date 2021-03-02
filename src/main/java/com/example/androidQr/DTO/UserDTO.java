@@ -16,5 +16,6 @@ public class UserDTO {
   private Gun gun;
   private Role role;
   private Event event;
+  private String fileName;
 
 }

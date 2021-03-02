@@ -4,24 +4,25 @@
 <head>
   <title>Регистрация пользователя</title>
   <style type="text/css">
-    .field {
-      clear: both;
-      text-align: right;
-      line-height:25px;
-    }
+      .field {
+          clear: both;
+          text-align: right;
+          line-height: 25px;
+      }
 
-    label {
-      float: left;
-      padding-right:10px;
-    }
+      label {
+          float: left;
+          padding-right: 10px;
+      }
 
-    .main {
-      float: left
-    }
+      .main {
+          float: left
+      }
   </style>
 </head>
 <body>
-<form action="#" th:action="@{/registration}" th:object="${userDTO}" method="post">
+<form action="#" th:action="@{/registration}" th:object="${userDTO}" method="post"
+      enctype="multipart/form-data">
   <div class="main">
     <div class="field">
       <label for="n">Фамилия</label>
@@ -54,6 +55,10 @@
         <option th:value="Bow">Лук</option>
         <option th:value="Crossbow">Арболет</option>
       </select>
+    </div>
+    <div class="field">
+      <label for="n">Загрузите файл</label>
+      <input type="file" name="file">
     </div>
     <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
   </div>
