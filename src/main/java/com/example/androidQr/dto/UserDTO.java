@@ -1,5 +1,8 @@
-package com.example.androidQr.DTO;
+package com.example.androidQr.dto;
 
+import com.example.androidQr.dto.enums.Event;
+import com.example.androidQr.dto.enums.Gun;
+import com.example.androidQr.dto.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
