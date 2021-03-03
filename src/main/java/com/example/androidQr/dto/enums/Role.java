@@ -1,4 +1,4 @@
-package com.example.androidQr.DTO;
+package com.example.androidQr.dto.enums;
 
 public enum Role {
   Participant,Accompanying;
