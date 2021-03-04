@@ -13,9 +13,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserDTO {
+  private String familyName;
   private String firstName;
-  private String name;
-  private String secondName;
+  private String middleName;
   private Gun gun;
   private Role role;
   private Event event;
