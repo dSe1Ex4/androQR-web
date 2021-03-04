@@ -50,18 +50,15 @@ public class RegistrationController {
       String resultFileName = uuidFile + "." + file.getOriginalFilename();
 
       file.transferTo(new File(uploadPath + "\\\\" + resultFileName));
-
-      userDTO.setFileName(resultFileName);
     }
 
     model.addAttribute("userDTO", userDTO);
     log.info(userDTO.getFirstName());
     log.info(userDTO.getName());
     log.info(userDTO.getSecondName());
-    log.info(userDTO.getRole().name());
-    log.info(userDTO.getEvent().name());
-    log.info(userDTO.getGun().name());
-    log.info(userDTO.getFileName());
+    // log.info(userDTO.getRole().name());
+    log.info(userDTO.getEvent());
+    // log.info(userDTO.getGun().name());
 
     StringBuilder textBuilder = new StringBuilder();
     textBuilder.append(userDTO.getFirstName());
@@ -70,11 +67,11 @@ public class RegistrationController {
     textBuilder.append(" ");
     textBuilder.append(userDTO.getSecondName());
     textBuilder.append(" ");
-    textBuilder.append(userDTO.getRole().name());
+    // textBuilder.append(userDTO.getRole().name());
     textBuilder.append(" ");
-    textBuilder.append(userDTO.getEvent().name());
+    textBuilder.append(userDTO.getEvent());
     textBuilder.append(" ");
-    textBuilder.append(userDTO.getGun().name());
+    // textBuilder.append(userDTO.getGun().name());
 
     qrCodeGenerator.generatedQRCodeImage(textBuilder.toString());
 
