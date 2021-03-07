@@ -4,48 +4,47 @@
 <head>
   <title>Регистрация пользователя</title>
   <style type="text/css">
-      .field {
-          clear: both;
-          text-align: right;
-          line-height: 25px;
-      }
+    .field {
+      clear: both;
+      text-align: right;
+      line-height: 25px;
+    }
 
-      label {
-          float: left;
-          padding-right: 10px;
-      }
+    label {
+      float: left;
+      padding-right: 10px;
+    }
 
-      .main {
-          float: left
-      }
+    .main {
+      float: left
+    }
   </style>
 </head>
 <body>
-<form action="#" th:action="@{/registration}" th:object="${userDTO}" method="post"
-      enctype="multipart/form-data">
+<form action="#" th:action="@{/registration}" method="post" enctype="multipart/form-data">
   <div class="main">
     <div class="field">
       <label for="n">Фамилия</label>
-      <input type="text" th:field="*{familyName}">
+      <input type="text" th:value="${userDTO.lastName}" name="lastName">
     </div>
     <div class="field">
       <label for="n">Имя</label>
-      <input type="text" th:field="*{firstName}">
+      <input type="text" th:value="${userDTO.firstName}" name="firstName">
     </div>
     <div class="field">
       <label for="n">Отчество</label>
-      <input type="text" th:field="*{middleName}">
+      <input type="text" th:value="${userDTO.middleName}" name="middleName">
     </div>
     <div class="field">
       <label for="n">Мероприятие</label>
-      <select th:field="*{event}">
+      <select th:value="${userDTO.event}" name="event">
         <option th:value="first">Мероприятие 1</option>
         <option th:value="second">Мероприятие 2</option>
       </select>
     </div>
     <div class="field">
       <label for="n">Роль</label>
-      <select th:field="*{role}">
+      <select th:value="${}" name="event">
         <option th:value="Participant">Участник</option>
         <option th:value="Accompanying">Сопровождающий</option>
       </select>

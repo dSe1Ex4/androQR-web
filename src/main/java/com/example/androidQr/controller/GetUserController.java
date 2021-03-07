@@ -19,31 +19,28 @@ public class GetUserController {
   @GetMapping("/getUser")
   public ResponseEntity<?> getUser(@RequestParam(value = "uuid") String uuid) {
 
-    if (!uuid.isEmpty()) {
-      UserDTO userDTO = new UserDTO();
-      userDTO.setName("Валерий");
-      userDTO.setFirstName("Жмышенко");
-      userDTO.setSecondName("Альбертович");
-      userDTO.setEvent("Поточек");
+    UserDTO userDTO = new UserDTO();
+    userDTO.setFirstName("Валерий");
+    userDTO.setLastName("Жмышенко");
+    userDTO.setMiddleName("Альбертович");
+    userDTO.setEvent("Поточек");
 
-      WeaponDTO weaponDTO = new WeaponDTO();
-      weaponDTO.setName("Пистолет");
+    WeaponDTO weaponDTO = new WeaponDTO();
+    weaponDTO.setName("Пистолет");
 
-      RoleDTO roleDTO = new RoleDTO();
-      roleDTO.setId(10);
+    RoleDTO roleDTO = new RoleDTO();
+    roleDTO.setId(10);
 
-      Map<String, Object> extra = new HashMap<>();
-      extra.put("weapon", weaponDTO.getName());
-      extra.put("roleId", String.valueOf(roleDTO.getId()));
+    Map<String, Object> extra = new HashMap<>();
+    extra.put("weapon", weaponDTO.getName());
+    extra.put("roleId", String.valueOf(roleDTO.getId()));
 
-      Map<String, Object> result = new HashMap<>();
-      result.put("user", userDTO);
-      result.put("extra", extra);
+    Map<String, Object> result = new HashMap<>();
+    result.put("user", userDTO);
+    result.put("extra", extra);
 
-      return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
-    }
+    return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 
-    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
   }
 
