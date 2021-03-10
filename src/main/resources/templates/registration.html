@@ -25,19 +25,19 @@
   <div class="main">
     <div class="field">
       <label for="n">Фамилия</label>
-      <input type="text" th:value="${userDTO.lastName}" name="lastName">
+      <input type="text" th:value="${personDTO.lastName}" name="lastName">
     </div>
     <div class="field">
       <label for="n">Имя</label>
-      <input type="text" th:value="${userDTO.firstName}" name="firstName">
+      <input type="text" th:value="${personDTO.firstName}" name="firstName">
     </div>
     <div class="field">
       <label for="n">Отчество</label>
-      <input type="text" th:value="${userDTO.middleName}" name="middleName">
+      <input type="text" th:value="${personDTO.middleName}" name="middleName">
     </div>
     <div class="field">
       <label for="n">Мероприятие</label>
-      <select th:value="${userDTO.event}" name="event">
+      <select th:value="${personDTO.event}" name="event">
         <option th:value="first">Мероприятие 1</option>
         <option th:value="second">Мероприятие 2</option>
       </select>
