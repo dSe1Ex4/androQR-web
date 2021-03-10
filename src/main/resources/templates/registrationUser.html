@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация охраника</title>
+  <style type="text/css">
+    .field {
+      clear: both;
+      text-align: right;
+      line-height: 25px;
+    }
+
+    label {
+      float: left;
+      padding-right: 10px;
+    }
+
+    .main {
+      float: left
+    }
+  </style>
+</head>
+<body>
+<form action="#" th:action="@{/registrationUser}" method="post" enctype="multipart/form-data">
+  <div class="main">
+    <div class="field">
+      <label for="n">Логин</label>
+      <input type="text" name="login">
+    </div>
+    <div class="field">
+      <label for="n">Имя</label>
+      <input type="password" name="password">
+    </div>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
+  </div>
+</form>
+</body>
+</html>
