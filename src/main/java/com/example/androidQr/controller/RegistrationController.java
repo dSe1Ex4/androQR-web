@@ -1,6 +1,6 @@
 package com.example.androidQr.controller;
 
-import com.example.androidQr.dto.UserDTO;
+import com.example.androidQr.dto.PersonDTO;
 import com.example.androidQr.generator.QRCodeGenerator;
 import com.google.zxing.WriterException;
 import java.io.File;
@@ -40,26 +40,26 @@ public class RegistrationController {
       , @CookieValue(value = "firstname", defaultValue = "Алег") String firstName
       , @CookieValue(value = "middleName", defaultValue = "Сергейгеевич") String middleName
   ) {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setLastName(familyName);
-    userDTO.setFirstName(firstName);
-    userDTO.setMiddleName(middleName);
-    model.addAttribute("userDTO", userDTO);
+    PersonDTO personDTO = new PersonDTO();
+    personDTO.setLastName(familyName);
+    personDTO.setFirstName(firstName);
+    personDTO.setMiddleName(middleName);
+    model.addAttribute("userDTO", personDTO);
     //model.addAttribute("userDTO",new UserDTO());
     return "registration";
   }
 
   @PostMapping("/registration")
   public String registration(
-      @ModelAttribute UserDTO userDTO, Model model,
+      @ModelAttribute PersonDTO personDTO, Model model,
       @RequestParam("file") MultipartFile file,
       HttpServletResponse response
   ) throws IOException, WriterException {
-    Cookie cookie = new Cookie("familyname", userDTO.getFirstName());//
+    Cookie cookie = new Cookie("familyname", personDTO.getFirstName());//
     response.addCookie(cookie);
-    cookie = new Cookie("firstname", userDTO.getFirstName());//
+    cookie = new Cookie("firstname", personDTO.getFirstName());//
     response.addCookie(cookie);
-    cookie = new Cookie("middlename", userDTO.getMiddleName());//
+    cookie = new Cookie("middlename", personDTO.getMiddleName());//
     response.addCookie(cookie);
     if (!file.isEmpty()) {
       File uploadDir = new File(uploadPath);
@@ -74,10 +74,10 @@ public class RegistrationController {
       file.transferTo(new File(uploadPath + "\\\\" + resultFileName));
     }
 
-    model.addAttribute("userDTO", userDTO);
-    log.info(userDTO.getFirstName());
-    log.info(userDTO.getLastName());
-    log.info(userDTO.getMiddleName());
+    model.addAttribute("userDTO", personDTO);
+    log.info(personDTO.getFirstName());
+    log.info(personDTO.getLastName());
+    log.info(personDTO.getMiddleName());
     // log.info(userDTO.getRole().name());
     // log.info(userDTO.getEvent().name());
     // log.info(userDTO.getGun().name());
@@ -89,7 +89,7 @@ public class RegistrationController {
     // log.info(userDTO.getGun().name());
 
     StringBuilder textBuilder = new StringBuilder();
-    textBuilder.append(userDTO.getFirstName());
+    textBuilder.append(personDTO.getFirstName());
     textBuilder.append(" ");
     // textBuilder.append(userDTO.getName());
     textBuilder.append(" ");
@@ -97,7 +97,7 @@ public class RegistrationController {
     textBuilder.append(" ");
     // textBuilder.append(userDTO.getRole().name());
     textBuilder.append(" ");
-    textBuilder.append(userDTO.getEvent());
+    textBuilder.append(personDTO.getEvent());
     textBuilder.append(" ");
     // textBuilder.append(userDTO.getGun().name());
 
