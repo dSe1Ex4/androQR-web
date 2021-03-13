@@ -12,15 +12,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-//@ComponentScan("com.example.androQR-web.controller")
+@ComponentScan({"com.example.androidQr.controller", "com.example.androidQr.generator", "com.example.androidQr.config"})
 public class AndroidQrApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AndroidQrApplication.class, args);
-	}
-	@Bean
-	public Docket productApi() {
-		return new Docket(DocumentationType.SWAGGER_2).select()
-				.apis(RequestHandlerSelectors.basePackage("com.example.androQR-web")).build();
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AndroidQrApplication.class, args);
+    }
+
+    @Bean
+    public Docket productApi() {
+        return new Docket(DocumentationType.SWAGGER_2).select()
+                .apis(RequestHandlerSelectors.basePackage("com.example.androidQr")).build();
+    }
 }
