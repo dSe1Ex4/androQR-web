@@ -36,9 +36,9 @@ public class RegistrationController {
 
   @GetMapping("/registration")
   public String registration(Model model
-      , @CookieValue(value = "familyName", defaultValue = "Черепчепчанов") String familyName
-      , @CookieValue(value = "firstname", defaultValue = "Алег") String firstName
-      , @CookieValue(value = "middleName", defaultValue = "Сергейгеевич") String middleName
+      , @CookieValue(value = "familyName", defaultValue = "") String familyName
+      , @CookieValue(value = "firstname", defaultValue = "") String firstName
+      , @CookieValue(value = "middleName", defaultValue = "") String middleName
   ) {
     PersonDTO personDTO = new PersonDTO();
     personDTO.setLastName(familyName);
