@@ -18,6 +18,7 @@
     .main {
       float: left
     }
+    
   </style>
 </head>
 <body>
@@ -25,32 +26,32 @@
   <div class="main">
     <div class="field">
       <label for="n">Фамилия</label>
-      <input type="text" th:field="*{familyName}">
+      <input type="text" th:value="${userDTO.lastName}" name="lastName">
     </div>
     <div class="field">
       <label for="n">Имя</label>
-      <input type="text" th:field="*{firstName}">
+      <input type="text" th:value="${userDTO.firstName}" name="firstName">
     </div>
     <div class="field">
       <label for="n">Отчество</label>
-      <input type="text" th:field="*{middleName}">
+      <input type="text" th:value="${userDTO.middleName}" name="middleName">
     </div>
     <div class="field">
       <label for="n">Мероприятие</label>
-      <select th:value="${personDTO.event}" name="event">
+      <select th:value="${userDTO.event}" name="event">
         <option th:value="first">Мероприятие 1</option>
         <option th:value="second">Мероприятие 2</option>
       </select>
     </div>
     <div class="field">
       <label for="n">Роль</label>
-      <select th:value="${}" name="event">
+      <select th:value="${userDTO.role}" name="role">
         <option th:value="Participant">Участник</option>
         <option th:value="Accompanying">Сопровождающий</option>
       </select>
     </div>
     <div class="field">
-      <select th:field="*{gun}">
+      <select th:field="${userDTO.weapon}" name="weapon">
         <option th:value="Bow">Лук</option>
         <option th:value="Crossbow">Арболет</option>
       </select>
@@ -61,6 +62,7 @@
     </div>
     <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
   </div>
+    <img th:src="${fileName}">
 </form>
 </body>
 </html>
