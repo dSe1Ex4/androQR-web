@@ -1,4 +1,4 @@
-package com.example.androidQr.generator;
+package com.example.androidQr.utils;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
