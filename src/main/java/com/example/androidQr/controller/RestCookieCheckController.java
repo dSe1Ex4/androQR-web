@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @ComponentScan("com.example.androidQr.generator")
-public class RestCookieCheck {
+public class RestCookieCheckController {
 
   @GetMapping("/all-cookies")
   public String readAllCookies(HttpServletRequest request) {

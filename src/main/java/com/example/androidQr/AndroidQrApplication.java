@@ -12,7 +12,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan({"com.example.androidQr.controller", "com.example.androidQr.generator", "com.example.androidQr.config"})
+// @ComponentScan({"com.example.androidQr.controller", "com.example.androidQr.generator", "com.example.androidQr.config"})
 public class AndroidQrApplication {
 
     public static void main(String[] args) {
