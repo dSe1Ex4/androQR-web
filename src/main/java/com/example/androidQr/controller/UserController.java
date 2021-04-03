@@ -3,11 +3,9 @@ package com.example.androidQr.controller;
 import com.example.androidQr.dto.PersonDTO;
 import com.example.androidQr.service.AuthorizationService;
 import com.example.androidQr.service.PersonService;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Map;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -48,7 +46,7 @@ public class UserController {
     if (result != null) {
       return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
     }
-    return (ResponseEntity<?>) ResponseEntity.badRequest();
+    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
   }
 
   /**
@@ -70,7 +68,7 @@ public class UserController {
     if (result != null) {
       return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
     }
-    return (ResponseEntity<?>) ResponseEntity.badRequest();
+    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
   }
 
   /**
@@ -85,7 +83,7 @@ public class UserController {
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       produces = "image/*")
   @ResponseBody
-  public ResponseEntity<InputStreamResource> getImg(
+  public ResponseEntity<?> getImg(
       @RequestParam(name = "session_id") String sessionId,
       @RequestParam(name = "uuid") String uuid)
       throws Exception {
@@ -100,7 +98,6 @@ public class UserController {
           .body(new InputStreamResource(file.getInputStream()));
 
     }
-
-    return (ResponseEntity<InputStreamResource>) ResponseEntity.badRequest();
+    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
   }
 }
