@@ -46,7 +46,7 @@ public class UserController {
     if (result != null) {
       return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
     }
-    return (ResponseEntity<?>) ResponseEntity.badRequest();
+    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
   }
 
   /**
@@ -68,7 +68,7 @@ public class UserController {
     if (result != null) {
       return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
     }
-    return (ResponseEntity<?>) ResponseEntity.badRequest();
+    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
   }
 
   /**
@@ -83,7 +83,7 @@ public class UserController {
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
       produces = "image/*")
   @ResponseBody
-  public ResponseEntity<InputStreamResource> getImg(
+  public ResponseEntity<?> getImg(
       @RequestParam(name = "session_id") String sessionId,
       @RequestParam(name = "uuid") String uuid)
       throws Exception {
@@ -98,7 +98,6 @@ public class UserController {
           .body(new InputStreamResource(file.getInputStream()));
 
     }
-
-    return (ResponseEntity<InputStreamResource>) ResponseEntity.badRequest();
+    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
   }
 }
