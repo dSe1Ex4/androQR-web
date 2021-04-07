@@ -26,7 +26,10 @@ public class AuthorizationService {
 
   public Map<String, String> authorization(String login, String password) throws Exception {
     User user = userRepository.findByLogin(login)
-        .orElseThrow(() -> new Exception("User with login=" + login + " was not found"));
+        .orElse(null);
+    if(user == null){
+      return null;
+    }
 
     if (BCrypt.verifyer()
         .verify(password.toCharArray(), user.getPasswordHash().toCharArray()).verified) {

@@ -9,15 +9,32 @@ import com.example.androidQr.repository.MeasureRepository;
 import com.example.androidQr.repository.PersonRepository;
 import com.example.androidQr.repository.ValueRepository;
 import com.example.androidQr.utils.SessionUtils;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class PersonService {
+
+  private static final String UNAUTHORIZED_MESSAGE = "Ошибка авторизации. Проверте логин/пароль";
+  private static final String UNAUTHORIZED_MESSAGE_SESSION = "Авторизационная сессия больше не действительна. Пожалуйста авторизируйтесь.";
+  private static final String NOT_FOUND_UUID_MESSAGE = "UUID не найден. Посетитель не зарегестрирован на мероприятии";
+  private static final String NOT_FOUND_IMAGE_MESSAGE = "Фотография посетиетля не найдена";
+
 
   private final SessionUtils sessionUtils;
   private final ValueRepository valueRepository;
@@ -25,33 +42,47 @@ public class PersonService {
   private final PersonRepository personRepository;
 
 
-  public Map<String, Object> getMeasurePersonInfo(String sessionId, String uuid) throws Exception {
+  public ResponseEntity<?> getMeasurePersonInfo(String sessionId, String uuid) throws Exception {
 
     if (sessionId != null && uuid != null && sessionUtils.verifySession(sessionId)) {
       Measure measure = measureRepository.findByUuid(uuid)
-          .orElseThrow(() -> new Exception("Measure with uuid=" + uuid + " was not found."));
+          .orElse(null);
+      if (measure == null) {
+        return new ResponseEntity<>(NOT_FOUND_UUID_MESSAGE, HttpStatus.NOT_FOUND);
+      }
       List<Value> values = valueRepository.findByMeasure(measure);
 
-      return MapPersonDTOMapper.mapToDTO(measure, values).getMap();
+      Map<String, Object> result = MapPersonDTOMapper.mapToDTO(measure, values).getMap();
+      return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
     }
-
-    return null;
+    return new ResponseEntity<>(UNAUTHORIZED_MESSAGE_SESSION, HttpStatus.UNAUTHORIZED);
   }
 
-  public PersonDTO getPersonImage(String sessionId, String uuid) throws Exception {
+  public ResponseEntity<?> getPersonImage(String sessionId, String uuid) throws Exception {
     if (sessionId != null && uuid != null && sessionUtils.verifySession(sessionId)) {
       Measure measure = measureRepository.findByUuid(uuid)
-          .orElseThrow(() -> new Exception("Measure with uuid=" + uuid + " was not found."));
+          .orElse(null);
+      if (measure == null) {
+        return new ResponseEntity<>(NOT_FOUND_UUID_MESSAGE, HttpStatus.NOT_FOUND);
+      }
 
-      return PersonMapper
-          .mapToDTO(personRepository.findById(measure.getPerson().getId()).orElseThrow(
-              () -> new Exception(
+      PersonDTO personDTO = PersonMapper.mapToDTO(personRepository.findById(measure.getPerson().getId())
+          .orElseThrow(() -> new Exception(
                   "Person with id=" + measure.getPerson().getId() + " was not found")));
 
-
+      try{
+        FileSystemResource file = new FileSystemResource(personDTO.getImgPath());
+        return ResponseEntity.ok()
+            .contentLength(file.contentLength())
+            .contentType(
+                MediaType.parseMediaType(Files.probeContentType(Paths.get(personDTO.getImgPath()))))
+            .body(new InputStreamResource(file.getInputStream()));
+      }catch (Exception e){
+        log.warn(e.getMessage());
+        return new ResponseEntity<>(NOT_FOUND_IMAGE_MESSAGE, HttpStatus.NOT_FOUND);
+      }
     }
-
-    return null;
+    return new ResponseEntity<>(UNAUTHORIZED_MESSAGE_SESSION, HttpStatus.UNAUTHORIZED);
   }
 
 }

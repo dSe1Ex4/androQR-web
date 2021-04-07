@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class UserController {
 
+  private static final String UNAUTHORIZED_MESSAGE = "Ошибка авторизации. Проверте логин/пароль";
+
   private final PersonService personService;
   private final AuthorizationService authorizationService;
 
@@ -42,11 +44,7 @@ public class UserController {
       @RequestParam(name = "session_id") String sessionId,
       @RequestParam(name = "uuid") String uuid) throws Exception {
 
-    Map<String, Object> result = personService.getMeasurePersonInfo(sessionId, uuid);
-    if (result != null) {
-      return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
-    }
-    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
+    return personService.getMeasurePersonInfo(sessionId, uuid);
   }
 
   /**
@@ -68,7 +66,7 @@ public class UserController {
     if (result != null) {
       return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
     }
-    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
+    return new ResponseEntity<>(UNAUTHORIZED_MESSAGE, HttpStatus.UNAUTHORIZED);
   }
 
   /**
@@ -81,23 +79,12 @@ public class UserController {
   @RequestMapping(value = "/get_img",
       method = RequestMethod.POST,
       consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
-      produces = "image/*")
+      produces = {"image/*", MediaType.APPLICATION_FORM_URLENCODED_VALUE})
   @ResponseBody
   public ResponseEntity<?> getImg(
       @RequestParam(name = "session_id") String sessionId,
       @RequestParam(name = "uuid") String uuid)
       throws Exception {
-
-    PersonDTO personDTO = personService.getPersonImage(sessionId, uuid);
-    if (personDTO != null) {
-      FileSystemResource file = new FileSystemResource(personDTO.getImgPath());
-      return ResponseEntity.ok()
-          .contentLength(file.contentLength())
-          .contentType(
-              MediaType.parseMediaType(Files.probeContentType(Paths.get(personDTO.getImgPath()))))
-          .body(new InputStreamResource(file.getInputStream()));
-
-    }
-    return new ResponseEntity<>("Доступ запрещен", HttpStatus.UNAUTHORIZED);
+    return personService.getPersonImage(sessionId, uuid);
   }
 }
