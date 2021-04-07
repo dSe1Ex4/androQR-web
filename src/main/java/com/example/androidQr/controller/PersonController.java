@@ -15,7 +15,6 @@ import java.io.IOException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +91,8 @@ public class PersonController {
     response.addCookie(cookie);
     cookie = new Cookie("secondName", personDTO.getThreeName());
     response.addCookie(cookie);
+
+    // Добавить кеширование пароля
 
     personDTO.setImgPath(imageUtils.savePersonImage(file,
         personDTO.getFirstName() + personDTO.getSecondName() + personDTO.getThreeName()));
