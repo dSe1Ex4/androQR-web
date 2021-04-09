@@ -107,7 +107,7 @@ public class RegistrationService {
 //          valueRepository.save(value);
 //        });
 
-    String path = qrCodeGeneratorUtils.generatedQRCodeImage(UUID.randomUUID().toString(), uuid);
+    String path = qrCodeGeneratorUtils.generatedQRCodeImage(uuid, uuid);
 
     return path;
   }
