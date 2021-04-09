@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <title>Регистрация пользователя</title>
   <style type="text/css">
     .field {
@@ -22,7 +23,8 @@
   </style>
 </head>
 <body>
-<form action="#" th:action="@{/person/registration}" method="post" enctype="multipart/form-data">
+<form action="#" th:action="@{/person/registration}" method="post" enctype="multipart/form-data"
+      id="search-form">
   <div class="main">
     <div class="field">
       <label for="n">Фамилия</label>
@@ -37,37 +39,26 @@
       <input type="text" th:value="${personDTO.secondName}" name="secondName">
     </div>
     <div class="field">
-      <label for="n">Мероприятие</label>
-      <select th:value="${eventDTO}" name="event">
-        <option value="0">Выбирете мероприятие</option>
-        <option th:each="event : ${eventList}" th:value="${eventDTO}"
-                th:text="${event.getName()}"></option>
-      </select>
-    </div>
-    <div class="field">
       <label for="n">Роль</label>
       <select name="role">
-        <option value="0">Выбирете роль</option>
-        <option th:each="role : ${roleList}" th:value="${roleDTO.name}"
-                th:text="${role.getName()}"></option>
+        <option th:each="r : ${roleList}" th:value="${r.id}" th:text="${r.getName()}" th:name="role"></option>
       </select>
     </div>
     <div class="field">
       <label for="n">Дополнительные парамертры</label>
-      <table>
-        <tr th:each="p: ${mapParamDTOValueDTO.getMap()}">
-          <td th:text="${p.getKey().getName()}"/>
-          <td><input type="text" th:value="*{p.getValue().value}" name="value"></td>
-        </tr>
-      </table>
+      <div th:each="property : ${mapParamDTOValueDTO.paramDTOValueDTOMap.entrySet()}">
+        <div class="form-group">
+          <p th:for="*{mapParamDTOValueDTO.paramDTOValueDTOMap['__${property.key}__']}" th:text="${property.key}"></p>
+          <input type="text" th:field="*{mapParamDTOValueDTO.paramDTOValueDTOMap['__${property.key}__']}" />
+        </div>
+      </div>
     </div>
     <div class="field">
       <label for="n">Загрузите файл</label>
       <input type="file" name="file">
     </div>
-    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
   </div>
-  <img th:src="${fileName}">
 </form>
 </body>
 </html>

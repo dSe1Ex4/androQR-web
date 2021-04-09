@@ -15,13 +15,19 @@ public class EventService {
 
   private final EventRepository eventRepository;
 
-  public List<EventDTO> getEvent(){
-    List<EventDTO> listDto = eventRepository.getAll()
-        .stream()
+  public EventDTO getEvent(Integer id) throws Exception {
+    EventDTO eventDTO = EventMapper.mapToDTO(eventRepository.findById(id)
+        .orElseThrow(() -> new Exception("Event с id=" + id + " не найден!")));
+
+    return eventDTO;
+  }
+
+  public List<EventDTO> getAll(){
+    List<EventDTO> result = eventRepository.getAll().stream()
         .map(EventMapper::mapToDTO)
         .collect(Collectors.toList());
 
-    return listDto;
+    return result;
   }
 
 }

@@ -3,37 +3,61 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
   <meta charset="UTF-8">
-  <title>Регистрация охраника</title>
-  <style type="text/css">
-    .field {
-      clear: both;
-      text-align: right;
-      line-height: 25px;
-    }
-
-    label {
-      float: left;
-      padding-right: 10px;
-    }
-
-    .main {
-      float: left
-    }
-  </style>
+  <title>Регистрация пользователя</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+<script
+    src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js">
+</script>
+<script
+    src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.21.1/babel.min.js">
+</script>
+<script
+    src="src/User.js">
+</script>
 <body>
-<form action="#" th:action="@{/registrationUser}" method="post" enctype="multipart/form-data">
-  <div class="main">
-    <div class="field">
-      <label for="n">Логин</label>
-      <input type="text" name="login">
+<form action="#" th:action="@{/person/registration}" method="post" enctype="multipart/form-data" th:object="${}">
+  <div class="callout">
+    <div class="callout-header">Предупреждение</div>
+    <span class="closebtn" onclick="this.parentElement.style.display='none';">×</span>
+    <div class="callout-container">
+      <p> Продолжая использовать наш сайт, вы даете согласие на обработку файлов cookie, которые
+        обеспечивают правильную работу сайта.
+        <a href="#">Узнать об этом</a></p>
     </div>
-    <div class="field">
-      <label for="n">Имя</label>
-      <input type="password" name="password">
-    </div>
-    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/>
   </div>
+  <div id="main" class="box">
+    <h1>Регистрация</h1>
+    <input type="text" v-model='user.lastName' name="lastName" placeholder="Фамилия"
+           th:value="${personDTO.threeName}">
+    <input type="text" v-model='user.firstName' name="firstName" placeholder="Имя"
+           th:value="${personDTO.firstName}">
+    <input type="text" v-model='user.middleName' name="middleName" placeholder="Отчество"
+           th:value="${personDTO.secondName}">
+    <select class="select" th:value="${eventDTO}" name="event">
+      <option th:each="event : ${eventList}" th:value="${eventDTO}"
+              th:text="${event.getName()}"></option>
+    </select>
+    <select class="select" name="role">
+      <option th:each="role : ${roleList}" th:value="${roleDTO.name}"
+              th:text="${role.getName()}"></option>
+    </select>
+<!--    <table>-->
+<!--      <tr th:each="p: ${mapParamDTOValueDTO.getMap()}">-->
+<!--        <td th:text="${p.getKey().getName()}"/>-->
+<!--        <td><input type="text" th:value="*{p.getValue().value}" name="value"></td>-->
+<!--      </tr>-->
+<!--    </table>-->
+    <div class="upload-btn-wrapper">
+      <button class="btn">Загрузить фото</button>
+      <input type="file" name="myfile"/>
+    </div>
+    <p>
+      <input class="btn" type="submit" value="Зарегистрироваться"/>
+      <img th:src="${fileName}">
+    </p>
+  </div>
+
 </form>
 </body>
 </html>

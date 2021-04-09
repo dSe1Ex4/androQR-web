@@ -10,4 +10,6 @@ public interface ParamRepository extends JpaRepository<Param, Integer> {
 
   List<Param> findAllByEventList_name(String eventName);
 
+  Param findByName(String name);
+
 }

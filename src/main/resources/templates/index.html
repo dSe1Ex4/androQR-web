@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:custom="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Мероприятия</title>
+</head>
+<body>
+<form action="#" th:action="@{/person/index}" method="post" enctype="multipart/form-data"
+      id="search-form">
+  <div class="field">
+    <label for="n"><b>Выберите мероприятие</b></label>
+    <select name="event">
+      <option th:each="l : ${eventDTOList}" th:text="${l.name}" th:value="${l.getId()}" th:name="event"></option>
+    </select>
+    <p><input type="submit" value="Submit"/></p>
+  </div>
+</form>
+
+</body>
+</html>

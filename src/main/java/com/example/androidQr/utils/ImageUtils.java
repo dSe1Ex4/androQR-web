@@ -2,8 +2,11 @@ package com.example.androidQr.utils;
 
 import com.example.androidQr.exception.FileIsEmptyException;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.time.LocalDate;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,8 +17,8 @@ public class ImageUtils {
   @Value("${personimagedir.path}")
   private String personimagedir;
 
-  public String savePersonImage(MultipartFile file, String name) throws IOException {
-    if (!file.isEmpty()) {
+  public String savePersonImage(MultipartFile multipartFile, String name) throws IOException {
+    if (!multipartFile.isEmpty()) {
       File uploadDir = new File(personimagedir);
 
       if (!uploadDir.exists()) {
@@ -27,14 +30,20 @@ public class ImageUtils {
       personImgName.append("-");
       personImgName.append(LocalDate.now().toString());
       personImgName.append(".");
-      personImgName.append("jpeg");
+      personImgName.append("jpg");
 
-      file.transferTo(new File(personimagedir + "\\\\" + personImgName.toString()));
+      // Сохраняем файл
+      File imgFile = new File(personimagedir + "\\\\" + personImgName.toString());
+
+      try (OutputStream os = new FileOutputStream(imgFile)) {
+        os.write(multipartFile.getBytes());
+      }
 
       return personimagedir + "\\\\" + personImgName.toString();
     }
 
-    throw new FileIsEmptyException(file.getOriginalFilename());
+    throw new FileIsEmptyException(multipartFile.getOriginalFilename());
   }
+
 
 }

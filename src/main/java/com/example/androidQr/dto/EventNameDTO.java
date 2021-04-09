@@ -3,9 +3,8 @@ package com.example.androidQr.dto;
 import lombok.Data;
 
 @Data
-public class RoleDTO {
+public class EventNameDTO {
 
-  private int id;
   private String name;
 
 }
