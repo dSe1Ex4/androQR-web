@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class EventDTO {
 
+  private int id;
   private String name;
   private Timestamp dateStart;
   private Timestamp dateEnd;

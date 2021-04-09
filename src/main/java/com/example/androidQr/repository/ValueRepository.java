@@ -12,5 +12,7 @@ public interface ValueRepository extends JpaRepository<Value, ParamMeasureId> {
 
   // List<Value> findByParamMeasureId_IdMeasure(int idMeasure);
   List<Value> findByMeasure(Measure measure);
+  Value findByValue(String value);
+
 
 }

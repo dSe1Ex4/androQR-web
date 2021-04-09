@@ -3,7 +3,9 @@ package com.example.androidQr.mapper;
 import com.example.androidQr.dto.EventDTO;
 import com.example.androidQr.dto.EventRoleDTO;
 import com.example.androidQr.dto.RoleDTO;
+import com.example.androidQr.entity.Event;
 import com.example.androidQr.entity.EventRole;
+import com.example.androidQr.entity.Role;
 
 public class EventRoleMapper {
 
@@ -35,6 +37,14 @@ public class EventRoleMapper {
     EventRoleDTO eventRoleDTO = new EventRoleDTO();
     eventRoleDTO.setRoleDTO(RoleMapper.mapToDTO(eventRole.getRole()));
     eventRoleDTO.setEventDTO(EventMapper.mapToDTO(eventRole.getEvent()));
+
+    return eventRoleDTO;
+  }
+
+  public static EventRoleDTO mapToDTO(Role role, Event event){
+    EventRoleDTO eventRoleDTO = new EventRoleDTO();
+    eventRoleDTO.setRoleDTO(RoleMapper.mapToDTO(role));
+    eventRoleDTO.setEventDTO(EventMapper.mapToDTO(event));
 
     return eventRoleDTO;
   }

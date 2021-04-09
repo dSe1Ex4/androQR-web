@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 @Slf4j
 @Service
@@ -48,14 +49,15 @@ public class PersonService {
       Measure measure = measureRepository.findByUuid(uuid)
           .orElse(null);
       if (measure == null) {
-        return new ResponseEntity<>(NOT_FOUND_UUID_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_UUID_MESSAGE);
+        // return new ResponseEntity<>(NOT_FOUND_UUID_MESSAGE, HttpStatus.NOT_FOUND);
       }
       List<Value> values = valueRepository.findByMeasure(measure);
 
       Map<String, Object> result = MapPersonDTOMapper.mapToDTO(measure, values).getMap();
       return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
     }
-    return new ResponseEntity<>(UNAUTHORIZED_MESSAGE_SESSION, HttpStatus.UNAUTHORIZED);
+    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, UNAUTHORIZED_MESSAGE_SESSION);
   }
 
   public ResponseEntity<?> getPersonImage(String sessionId, String uuid) throws Exception {
@@ -63,7 +65,7 @@ public class PersonService {
       Measure measure = measureRepository.findByUuid(uuid)
           .orElse(null);
       if (measure == null) {
-        return new ResponseEntity<>(NOT_FOUND_UUID_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_UUID_MESSAGE);
       }
 
       PersonDTO personDTO = PersonMapper.mapToDTO(personRepository.findById(measure.getPerson().getId())
@@ -79,10 +81,10 @@ public class PersonService {
             .body(new InputStreamResource(file.getInputStream()));
       }catch (Exception e){
         log.warn(e.getMessage());
-        return new ResponseEntity<>(NOT_FOUND_IMAGE_MESSAGE, HttpStatus.NOT_FOUND);
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND, NOT_FOUND_IMAGE_MESSAGE);
       }
     }
-    return new ResponseEntity<>(UNAUTHORIZED_MESSAGE_SESSION, HttpStatus.UNAUTHORIZED);
+    throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, UNAUTHORIZED_MESSAGE_SESSION);
   }
 
 }

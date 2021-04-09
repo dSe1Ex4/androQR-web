@@ -20,6 +20,7 @@ public class RoleService {
   public List<RoleDTO> getRole(EventDTO eventDTO) {
     return roleRepository.getRole(EventMapper.mapToEntity(eventDTO)).stream()
         .map(RoleMapper::mapToDTO)
+        .distinct()
         .collect(Collectors.toList());
   }
 

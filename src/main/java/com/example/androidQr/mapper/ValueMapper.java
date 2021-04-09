@@ -14,4 +14,13 @@ public class ValueMapper {
     return value;
   }
 
+  public static ValueDTO mapToDTO(Value value){
+    ValueDTO valueDTO = new ValueDTO();
+    valueDTO.setValue(value.getValue());
+    valueDTO.setMeasureDTO(MeasureMapper.mapToDTO(value.getMeasure()));
+    valueDTO.setParamDTO(ParamMapper.mapToDTO(value.getParam()));
+
+    return valueDTO;
+  }
+
 }
